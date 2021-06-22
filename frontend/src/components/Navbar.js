@@ -22,7 +22,6 @@ const Navbar = ({ title }) => {
                                 <li><hr class="dropdown-divider" /></li>
                                 <li><Link class="dropdown-item" to="/one">Visualization 1</Link></li>
                                 <li><Link class="dropdown-item" to="/two">Visualization 2</Link></li>
-                                <li><Link class="dropdown-item" to="/three">Visualization 3</Link></li>
                             </ul>
                         </li>
                         <li className="nav-item"><Link className="nav-link" to="/about">About</Link></li>
@@ -34,7 +33,7 @@ const Navbar = ({ title }) => {
 }
 
 Navbar.defaultProps = {
-    title: 'IMDB Movies',
+    title: 'IMDb Movies',
 }
 
 Navbar.propTypes = {

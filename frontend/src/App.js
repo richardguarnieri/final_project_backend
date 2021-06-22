@@ -9,7 +9,6 @@ import Visualizations from './components/Visualizations';
 // Pages
 import One from './components/One';
 import Two from './components/Two';
-import Three from './components/Three';
 import About from './components/About';
 
 // Router
@@ -37,7 +36,6 @@ function App() {
         <Route path='/visualizations' component={Visualizations} />
         <Route path='/one' component={One} />
         <Route path='/two' component={Two} />
-        <Route path='/three' component={Three} />
         <Route path='/about' component={About} />
         <Footer />
       </div>

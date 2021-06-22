@@ -1,4 +1,6 @@
 import logo from '../img/movies-on-the-house.jpg';
+import viz1 from '../img/viz1.png';
+import viz2 from '../img/viz2.png';
 
 const Carousel = () => {
     return (
@@ -7,35 +9,21 @@ const Carousel = () => {
                 <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" className="active" aria-current="true" aria-label="Slide 1"></button>
                 <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
                 <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="3" aria-label="Slide 4"></button>
             </div>
             <div className="carousel-inner">
                 <div className="carousel-item active" data-bs-interval="3000">
-                    <img src={logo} className="d-block w-100" alt="..." />
+                    <img src={logo} className="d-block w-100 img-fluid" alt="..." />
+                </div>
+                <div className="carousel-item" data-bs-interval="3000">
+                    <img src={viz1} className="d-block w-100 img-fluid" alt="..." />
                     <div className="carousel-caption d-none d-md-block">
-                        <h5>First slide label</h5>
-                        <p>Some representative placeholder content for the first slide.</p>
+                        <h5>Sunburst</h5>
                     </div>
                 </div>
                 <div className="carousel-item" data-bs-interval="3000">
-                    <img src={logo} className="d-block w-100" alt="..." />
+                    <img src={viz2} className="d-block w-100 img-fluid" alt="..." />
                     <div className="carousel-caption d-none d-md-block">
-                        <h5>Second slide label</h5>
-                        <p>Some representative placeholder content for the second slide.</p>
-                    </div>
-                </div>
-                <div className="carousel-item" data-bs-interval="3000">
-                    <img src={logo} className="d-block w-100" alt="..." />
-                    <div className="carousel-caption d-none d-md-block">
-                        <h5>Third slide label</h5>
-                        <p>Some representative placeholder content for the third slide.</p>
-                    </div>
-                </div>
-                <div className="carousel-item" data-bs-interval="3000">
-                    <img src={logo} className="d-block w-100" alt="..." />
-                    <div className="carousel-caption d-none d-md-block">
-                        <h5>Fourth slide label</h5>
-                        <p>Some representative placeholder content for the third slide.</p>
+                        <h5>Bubble</h5>
                     </div>
                 </div>
             </div>
