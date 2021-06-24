@@ -8,7 +8,7 @@ const Two = () => {
     const [genre, setGenre] = useState('');
     const [language, setLanguage] = useState('');
 
-    const herokuBackend = 'https://itesm-project2-backend.herokuapp.com';
+    const herokuBackend = 'http://3.17.42.22:5000';
 
     let datac;
     useEffect(() => {
@@ -156,7 +156,7 @@ const Two = () => {
     
         let margin = {
             top: 100,
-            bottom: 50,
+            bottom: 70,
             right: 70,
             left: 70
           };
@@ -514,6 +514,7 @@ const Two = () => {
                         <h2 className="display-6 pt-3 pb-3">Movies by Country, Language and Genre</h2>
                         <p className="lead">Description</p>
                         <p>Select the contry, language and genre of your choice, based on that we will show you the 20 best rated movies, and graphically display their duration, rating, and year of release!</p>
+                        <p>Note: The size of the bubble represents the duration of each movie. The colors are only to distinguish each other.</p>
                     </div>
                     <hr className='mt-4 mb-4'/>
                     <div className="col">

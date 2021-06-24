@@ -3,13 +3,15 @@ from flask import Flask, jsonify, request
 from sqlalchemy import create_engine
 import pandas as pd
 from flask_cors import CORS
+import psycopg2
 
 
-rds_connection_string = (f'dfprimldpzkawt:daee61afbe9e4cd6d00f43d9dbbbeb3aee8b373b1d8b7c67ff29e014246fb644@ec2-3-217-219-146.compute-1.amazonaws.com:5432/d8r4gedbk2rdiv')
+rds_connection_string = (f'postgres:proj2-team4@database-movies.cd8c7znzvm29.us-east-2.rds.amazonaws.com:5432/postgres')
 engine = create_engine(f'postgresql://{rds_connection_string}')
 conn = engine.connect()
 
 data = pd.read_sql_query('SELECT * FROM imdb_movies_global', conn)
+data_yr = pd.read_sql_query('SELECT DISTINCT year_mv FROM imdb_movies_global ORDER BY year_mv', conn)
 movies_data = data.set_index('imdb_title_id').T.to_dict('dict')
 
 #STARTING FLAST SERVER
@@ -54,6 +56,15 @@ def year(year):
         return jsonify(yearDic)
     except:
         return "Year not found"
+
+#RETURNING ALL YEARS IN DATABASE
+@app.route('/all_years')
+def all_years():
+    title_yr = data_yr['year_mv'].to_dict()
+    try:
+        return jsonify(title_yr)
+    except:
+        return "Year not found"
     
 #RETURNING RECORDS PER GENRE AND LANGUAGE
 @app.route('/filter/<genre>/<language>')
@@ -66,4 +77,4 @@ def filter(genre=None, language=None):
         return "Record not found"
     
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', debug=True)

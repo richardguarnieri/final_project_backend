@@ -7,8 +7,8 @@ const One = () => {
     
     //SVG Variables
 
-    let svgWidth = 1000;
-    let svgHeight = 1000;
+    let svgWidth = 750;
+    let svgHeight = 750;
     
     let chartMargin = {
         top: 60,
@@ -37,7 +37,7 @@ const One = () => {
     };
     // Backend & Event Listener variables
     const [year, setYear] = useState('');
-    const herokuBackend = 'https://itesm-project2-backend.herokuapp.com'
+    const herokuBackend = 'http://3.17.42.22:5000'
 
     useEffect(() => {    
         const general = async () => {
@@ -209,11 +209,11 @@ const One = () => {
                 <div className='col'>
                     <h2 className="display-6 pt-3 pb-3">Movies by Genre - Sunburst</h2>
                     <p className="lead">Description</p>
-                    <p>The following chart shows movies categorized by genre based on your year selection.</p>
+                    <p>The following chart shows the top 10 movies categorized by genre based on your year selection.</p>
                 </div>
                 <hr className='mt-4 mb-4'/>
                 <div className="col">
-                    <h1 className='text-center'>Movies by Genre based on Year</h1>
+                    <h1 className='text-center'>Top 10 Movies by Genre based on Year</h1>
                     
                     <h5 class="menu-instructions">Select the year you want to explore</h5>
 
