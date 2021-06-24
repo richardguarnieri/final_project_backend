@@ -4,12 +4,18 @@ import { useState, useEffect } from 'react';
 import * as d3 from 'd3';
 import * as tf from '@tensorflow/tfjs';
 import modelI from '../tfjsmodel/model.json';
+import inputss from './inputs.csv';
 //const tfn = require("@tensorflow/tfjs-node");
 
 const modelJson = require('../tfjsmodel/model.json');
 const modelWeights = require('../tfjsmodel/group1-shard1of1.bin');
 
+const url = {
+  model: 'https://tfjsmodel1212121212.b-cdn.net/model.json',
+  };
 
+
+ 
 
 
 
@@ -30,12 +36,18 @@ const NW = () => {
                 datac = data;
                 init();*/
                 chargeData();
+                console.log("charged");
             } catch(err) {
                 console.log(err);
             }
         }
         general();
     }, [genre, language]);
+
+   
+    
+
+
     //simulating UNIQUES
     let bedata = {"country":["US","UK"],
                 "language":["English","Spanish"],
@@ -50,26 +62,33 @@ const NW = () => {
 
     let ids=['genre','country','lang'];
     function chargeData(){
-      d3.csv("inputs.csv").then(function(Inputs){
+      d3.csv(inputss).then(function(Inputs){
         let mapp = Inputs.map(d => d[0]);
         let count = 1;
         ids.forEach(function(id,i){
-          let items = mapp.filter(function(d){ return d.substring(0,id.length) == id; }).map(d => d.substring(id.length+1));
+          let items = mapp.filter(function(d){  return d.substring(0,id.length) == id; }).map(d => d.substring(id.length+1));
           let select = d3.select("#myDropdown"+(i+1))
                           .selectAll("a")
                           .data(items);
                           
                           let group = select.enter()
                           .append("a")
-                          .attr("onclick", function(d) {
+                          /*.attr("onclick", function(d) {
                               count++; 
                               indexes[d.replace(/\s/g, '')] = count;
-                              return "hold('"+id+"','"+d.replace(/\s/g, '')+"')"; })
-                          .attr("id",function(d){return d.replace(/\s/g, '');})
+                              return "hold('"+id+"','"+d.replace(/\s/g, '')+"')"; })*/
+                          .attr("id",function(d){
+                                count++; 
+                                indexes[d.replace(/\s/g, '')] = count;
+                                return d.replace(/\s/g, '');})
+                          .on("click", function(d) {
+                              hold(id,d3.select(this).attr("id")); // my react method
+                              
+                          } )
+                          
                           .merge(select)
                           .text(function(d){
                                              return d;})
-          console.log(items);
         });
         /*items = mapp.filter(function(d){ return d.substring(0,5) == "genre"; }).map(d => d.substring(6));
         console.log(items);*/
@@ -105,7 +124,6 @@ const NW = () => {
         
       }else{
         if(filters[i].length==maxLenght[i]){
-          console.log("No more");
           return;
         }
         filters[i].push(id);   
@@ -114,70 +132,6 @@ const NW = () => {
     }
 
     async function init(){
-      
-      /*const url = {
-        model: 'https://00f74ba44b219bc8969ee28a3c08e0f49551fa18a8-apidata.googleusercontent.com/download/storage/v1/b/artifacts.speedy-triode-302818.appspot.com/o/model.json?jk=AFshE3WKd-PhCHabrHhagYbn2huIaTal97_8A0o4BUmud4YBVTyeyFyFyAGpRXZd_W-D61PMcDPGZKxTgG9U7nufuoVRL4ju7WJ0baStWfrYXGf9NuYNT1ymE0nrH8Id52szPX0ELIMLQIjmv5oelRTidyQXog-f1MsJPa2c7zBh6helk7oLVpJd2XrzfEWqt6coflqX8BtmVa9qBkBakH4huphXT71XunV7Y5HzPVR2Mul8WddC7SiRKYKElj7Qkcr_JqRDBbVQGLAS2CDZKVv8CNyzTdmpJWNyLb2zbe3icdCxsYumnzdInHSnPp8-WmMZNWnW-eJTXqNMNikdd22wI5iLIZqBSuoJLDZfq8pLqZLNvP9_QgqDN47jHgpRexLaHqPCuS7v9z1F2CwW70oyBHwYEDACV5kSht-PzlALe9r6AnnxsexSQQDdQNK0Nm9yMddjVXFJWqtrBHneAEHmtQiSqK5ZGJOWD9QcY_SWG_d3pU15nMPspy1Ujnh24kW_d_07O3Ui5xoYqNPZPlEplTjo2iMvbz6I_JfhebKsJMZET-DftadsXLuwTjujjn-DN2JsM6VX_5gKQOECKSCW3GDY6bDDdtzaf_8hnMAHu9SDPbnzjn2sFRA2TD5j79i5nav4LNxffrDAa7VDWqJMN8fTWJZt6_7cqxsgvHepdKMVks0eXVMbTEGeXwO60OXdA2kou_Yyuq3AthlVD6Jh0QH2GfDwR7ysDIfB-Ogo6CU3DJcDa4xuDvYLPbsnGGsSBsDwHe0OCQYstwLIrALLZPsDszdwWQm80lae2eKavjC-S4qovb0ZtwesRMVUj_rfvTJOoQeP1xvxTpmuy8-j2HPHJFqqzDRkZnMs70o143oU7ESJm_rgOTfurRpLaAeK2ttnqX9XvuDkXHsNp71zJx3wgbl3q6G-7rIE8EDVHzHmEpX5jAqzJyiNH1uMYZ7qNfjT_tixvd-BJRtymeUfpjAWp7sVOp5vMSoS&isca=1',
-        //metadata: 'https://storage.googleapis.com/tfjs-models/tfjs/sentiment_cnn_v1/metadata.json'
-        };
-        async function loadModel(url) {
-        try {
-        const model = await tf.loadLayersModel(url.model);
-        setModel(model);} 
-        catch (err) {
-        console.log(err);
-        }}
-        //React Hook
-        const [model, setModel] = useState();
-        useEffect(()=>{
-        tf.ready().then(()=>{
-        loadModel(url)
-        });
-        },[])
-
-        const predictOut = model.predict(input);
-        const score = predictOut.dataSync()[0];
-        predictOut.dispose();
-        setScore(score)
-        return score;*/
-
-
-
-
-//      const model = await tf.loadLayersModel('http://127.0.0.1:3000/model.json');
-      //const model = await tf.loadLayersModel(fetch('http://127.0.0.1:3000/model.json'),{mode:'cors'});
-      
-      //console.log(model);
-
-      //const model = await tf.loadLayersModel('http://localhost:3000/model.json');
-
-     /* const tf = require('@tensorflow/tfjs');
-      const tfnode = require('@tensorflow/tfjs-node');
-
-      async function loadModel(){
-          const handler = tfnode.io.fileSystem('tfjs_model/model.json');
-          const model = await tf.loadLayersModel(handler);
-          console.log("Model loaded")
-      }
-
-
-      loadModel();*/
-
-
-      //const model = await tf.loadGraphModel('http://localhost:3000/model.json');
-
-      /*const modelJson = require('./model.json');
-      const modelWeights = require('./group1-shard1of1.bin');
-      async function bundleResourceIOExample() {
-        const model =
-          await tf.loadLayersModel(bundleResourceIO(modelJson, modelWeights));
-          console.log(model);
-      }
-      let model=0;*/
-
-      //const handler = tfn.io.fileSystem(modelI);
-      //const model = await tf.loadLayersModel(handler);
-      //const model = await tf.loadLayersModel('https://tfjsmodel1212121212.b-cdn.net/model.json');
-      
       let url = {model:'https://tfjsmodel1212121212.b-cdn.net/model.json'}
       const model = await tf.loadLayersModel(url.model);
       let array = [];
@@ -192,7 +146,6 @@ const NW = () => {
     // Display the winner
       let prediction = Math.round(result.dataSync()[0]*100)/100;
     
-      console.log(result.dataSync()[0]);
       if(prediction < 0){
         d3.select("#pt").text("This rating is probably not meaningful since it's below 0: ");
       }
@@ -219,7 +172,7 @@ const NW = () => {
         let input, filter, ul, li, a, i,div,txtValue;
         input = document.getElementById("myInput"+id);
         filter = input.value.toUpperCase();
-        div = document.getElementById("mydropdown"+id);
+        div = document.getElementById("myDropdown"+id);
         a = div.getElementsByTagName("a");
         for (i = 0; i < a.length; i++) {
             txtValue = a[i].textContent || a[i].innerText;
@@ -251,13 +204,11 @@ const NW = () => {
         return;
       } 
       inputs[0] = (year - 1894) / (2020 - 1894)
-      console.log(inputs[0])
       if(isNaN(duration)){
         d3.select("#prediction").text("Not a valid duration");
         return;
       } 
       inputs[1] = (duration - 40) / (3360 - 40)
-      console.log(inputs[1])
     
       ids.forEach(function(kind){
         filters[kind].forEach(function(el,i){
@@ -293,7 +244,7 @@ const NW = () => {
 
                   <div className="dropdown">
                     <p>Select up to 3 genres</p>
-                    <button onClick={() => myFunction('mydropdown1')} className="dropbtn">Genre</button>
+                    <button onClick={() => myFunction('myDropdown1')} className="dropbtn">Genre</button>
                     <div id="myDropdown1" className="dropdownz-content" style={{height: "200px", overflow: "auto"}}>
                       <input type="text" placeholder="Search.." id="myInput1" onKeyUp={() => filterFunction(1)}></input>
                     </div>
@@ -301,7 +252,7 @@ const NW = () => {
 
                   <p>Select up to 5 countries</p>
                   <div className="dropdown">
-                    <button onClick={() => myFunction('mydropdown2')} className="dropbtn">Country</button>
+                    <button onClick={() => myFunction('myDropdown2')} className="dropbtn">Country</button>
                     <div id="myDropdown2" className="dropdownz-content" style={{height: "200px", overflow: "auto"}}>
                       <input type="text" placeholder="Search.." id="myInput2" onKeyUp={() => filterFunction(2)}></input>
                     </div>
@@ -309,7 +260,7 @@ const NW = () => {
 
                   <p>Select up to 5 languages</p>
                   <div className="dropdown">
-                    <button onClick={() => myFunction('mydropdown3')} className="dropbtn">Language</button>
+                    <button onClick={() => myFunction('myDropdown3')} className="dropbtn">Language</button>
                     <div id="myDropdown3" className="dropdownz-content" style={{height: "200px", overflow: "auto"}}>
                       <input type="text" placeholder="Search.." id="myInput3" onKeyUp={() => filterFunction(3)}></input>
                     </div>
