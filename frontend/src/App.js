@@ -9,6 +9,7 @@ import Visualizations from './components/Visualizations';
 // Pages
 import One from './components/One';
 import Two from './components/Two';
+import NW from './components/NW';
 import About from './components/About';
 
 // Router
@@ -36,6 +37,7 @@ function App() {
         <Route path='/visualizations' component={Visualizations} />
         <Route path='/one' component={One} />
         <Route path='/two' component={Two} />
+        <Route path='/nw' component={NW} />
         <Route path='/about' component={About} />
         <Footer />
       </div>
