@@ -12,6 +12,8 @@ conn = engine.connect()
 
 data = pd.read_sql_query('SELECT * FROM imdb_movies_global', conn)
 data_yr = pd.read_sql_query('SELECT DISTINCT year_mv FROM imdb_movies_global ORDER BY year_mv', conn)
+data_gen = pd.read_sql_query('SELECT DISTINCT genre_1 FROM imdb_movies_global ORDER BY genre_1', conn)
+data_lan = pd.read_sql_query('SELECT DISTINCT lang_1 FROM imdb_movies_global ORDER BY lang_1', conn)
 movies_data = data.set_index('imdb_title_id').T.to_dict('dict')
 
 #STARTING FLAST SERVER
@@ -75,6 +77,24 @@ def filter(genre=None, language=None):
         return jsonify(filterDic)
     except:
         return "Record not found"
+
+#RETURNING ALL GENRES IN DATABASE
+@app.route('/genres')
+def genres():
+    genre = data_gen['genre_1'].to_dict()
+    try:
+        return jsonify(genre)
+    except:
+        return "Genres not found"
+
+#RETURNING ALL LANGUAGES IN DATABASE
+@app.route('/language')
+def language():
+    lang = data_lan['lang_1'].to_dict()
+    try:
+        return jsonify(lang)
+    except:
+        return "Year not found"
     
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
