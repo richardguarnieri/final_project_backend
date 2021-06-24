@@ -94,7 +94,7 @@ def language():
     try:
         return jsonify(lang)
     except:
-        return "Year not found"
+        return "Language not found"
     
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
