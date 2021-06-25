@@ -25,7 +25,7 @@ const NW = () => {
     const [genre, setGenre] = useState('');
     const [language, setLanguage] = useState('');
 
-    const herokuBackend = 'https://itesm-project2-backend.herokuapp.com';
+    const herokuBackend = 'http://3.17.42.22:5000';
 
     let datac;
     useEffect(() => {
