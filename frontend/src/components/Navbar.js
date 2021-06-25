@@ -24,6 +24,7 @@ const Navbar = ({ title }) => {
                                 <li><Link class="dropdown-item" to="/two">Visualization 2</Link></li>
                             </ul>
                         </li>
+                        <li className="nav-item"><Link className="nav-link" to="/NW">Predict your Rating</Link></li>
                         <li className="nav-item"><Link className="nav-link" to="/about">About</Link></li>
                     </ul>   
                 </div>
